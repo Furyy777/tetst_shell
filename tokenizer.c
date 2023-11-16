@@ -4,8 +4,8 @@
  *
  * @line: The string to be tokenized.
  *
- * Returns: On success, returns a pointer to the array of tokens.
-            On failure or if the input line is NULL, returns NULL.
+ * Return: On success, returns a pointer to the array of tokens.
+            On failure or if the input line is NULL, return NULL.
 
  */
 char **tokenizer(char *line)
@@ -21,7 +21,7 @@ char **tokenizer(char *line)
 	token = strtok(tmp, DELIM);
 	if (token == NULL)
 	{
-		free(line), tmp = NULL;
+		free(line), line = NULL;
 		free(tmp), tmp = NULL;
 		return (NULL);
 	}
@@ -36,17 +36,18 @@ char **tokenizer(char *line)
 	command = malloc(sizeof(char *) * (cpt + 1));
 	if (!command)
 	{
-		free(line);
+		free(line), line = NULL;
 		return (NULL);
 	}
 
 	token = strtok(line, DELIM);
 	while (token)
 	{
-		command[i] = token;
+		command[i] = _strdup(token);
 		token = strtok(NULL, DELIM);
 		i++;
 	}
 	free(line), line = NULL;
+    command[i] = NULL;
 	return (command);
 }
